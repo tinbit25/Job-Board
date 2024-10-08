@@ -1,6 +1,6 @@
 const Nodemailer = require("nodemailer");
 const { sender, transport } = require('./mailtra.config');
-const { VERIFICATION_EMAIL_TEMPLATE } = require("./emailTemplates");
+const {PASSWORD_RESET_SUCCESS_TEMPLATE, VERIFICATION_EMAIL_TEMPLATE,PASSWORD_RESET_REQUEST_TEMPLATE } = require("./emailTemplates");
 
 const sendVerificationEmail = async (email, verificationToken) => {
   try {
@@ -91,5 +91,44 @@ const sendWelcomeEmail = async (email, name) => {
     throw new Error(`Error sending welcome email: ${error.message}`);
   }
 };
+const sendPasswordResetEmail=async(email,resetURL)=>{
+  recipient=[{email}]
+  try {
+    console.log("Sending email to:", email);
 
-module.exports = { sendVerificationEmail, sendWelcomeEmail };
+    const mailOptions = {
+      from: sender,
+      to: email,
+      subject: "Reset Your Password",
+      html: PASSWORD_RESET_REQUEST_TEMPLATE.replace("{resetURL}", resetURL),
+      category:"Password Reset"
+    };
+
+    const response = await transport.sendMail(mailOptions); 
+    console.log("Email sent successfully", response);
+  } catch (error) {
+    console.error(`Error sending Password Reset Email to ${email}:`, error);
+    throw new Error(`Error sending Password Reset Email: ${error.message}`);
+  }
+};
+const sendResetSuccessEmail=async(email)=>{
+  recipient=[{email}]
+  try {
+    console.log("Sending email to:", email);
+
+    const mailOptions = {
+      from: sender,
+      to: email,
+      subject: "Password Reset successful",
+      html: PASSWORD_RESET_SUCCESS_TEMPLATE,
+      category:"Password Reset"
+    };
+
+    const response = await transport.sendMail(mailOptions); 
+    console.log("Password reset successfully", response);
+  } catch (error) {
+    console.error(`Error in reset password ${email}:`, error);
+    throw new Error(`Error in reset password: ${error.message}`);
+  }
+};
+module.exports = { sendVerificationEmail, sendWelcomeEmail,sendPasswordResetEmail,sendResetSuccessEmail};

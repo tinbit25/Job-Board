@@ -13,4 +13,4 @@ const generateTokenAndSetCookie = (res, userId) => {
     return token;
 };
 
-module.exports = generateTokenAndSetCookie; // Correctly export the function
+module.exports = generateTokenAndSetCookie; 
