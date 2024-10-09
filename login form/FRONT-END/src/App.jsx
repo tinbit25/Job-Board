@@ -1,35 +1,29 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import React from 'react';
+import { Routes, Route } from 'react-router-dom';
+import FloatingShape from "./components/FloatingShape";
+import SignUpPage from './pages/SignUpPage';
+import LoginPage from './pages/LoginPage';
+import EmailVerificationPage from './pages/EmailVerificationPage';
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
     <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+      <div className='min-h-screen bg-green-700 flex items-center justify-center relative overflow-hidden'>
+        <FloatingShape color="bg-green-500" size="w-64 h-64" top="-5%" left="10%" zIndex={1} />
+        <FloatingShape color="bg-green-500" size="w-44 h-44" top="70%" left="80%" zIndex={2} />
+        <FloatingShape color="bg-green-500" size="w-64 h-64" top="40%" left="-10%" zIndex={3} /> 
+        
+        <Routes>
+          <Route path='/' element={"Home"} />
+          <Route path='/signup' element={
+           
+            <SignUpPage />} />
+          <Route path='/login' element={<LoginPage />} />
+          <Route path='/verify-email' element={<EmailVerificationPage />} />
+        </Routes>
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
     </>
-  )
+  );
 }
 
-export default App
+export default App;
